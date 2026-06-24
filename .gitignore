@@ -1,0 +1,47 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+
+# Expo
+.expo/
+.web-build/
+dist/
+
+# React Native
+*.log
+*.lock
+*.orig
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Codespaces
+.devcontainer/local.env
+
+# Build outputs
+build/
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+.idea/
+``
