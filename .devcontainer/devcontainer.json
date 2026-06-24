@@ -1,6 +1,6 @@
 {
   "name": "Expo React Native Workshop",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20-bullseye",
   "features": {},
   "postCreateCommand": "npm install",
   "customizations": {
