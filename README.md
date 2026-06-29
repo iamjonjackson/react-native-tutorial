@@ -25,7 +25,13 @@ Wait ~1–2 minutes for setup.
 In the terminal:
 
 ```
-npx expo start
+npx expo start --tunnel
+```
+
+or
+
+```
+npm start
 ```
 
 ---
