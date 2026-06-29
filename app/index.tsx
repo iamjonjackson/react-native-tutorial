@@ -8,29 +8,32 @@ export default function HomeScreen() {
   const [userId, setUserId] = useState<string | null>(null)
   const [email, setEmail] = useState<string | undefined>(undefined)
 
-  useEffect(() => {
-    supabase.auth.getClaims().then(({ data }) => {
-      const claims = data?.claims
-      if (!claims) return
+  const clearUser = () => {
+    setUserId(null)
+    setEmail(undefined)
+  }
 
-      setUserId(claims.sub)
-      setEmail(claims.email)
-    })
+  const syncUserFromSession = (session: { user?: { id?: string; email?: string | null } } | null) => {
+    const user = session?.user
+    if (!user?.id) {
+      clearUser()
+      return
+    }
+
+    setUserId(user.id)
+    setEmail(user.email ?? undefined)
+  }
+
+  useEffect(() => {
+    supabase.auth
+      .getSession()
+      .then(({ data }) => syncUserFromSession(data.session))
+      .catch(() => clearUser())
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async () => {
-      const { data } = await supabase.auth.getClaims()
-      const claims = data?.claims
-
-      if (!claims) {
-        setUserId(null)
-        setEmail(undefined)
-        return
-      }
-
-      setUserId(claims.sub)
-      setEmail(claims.email)
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      syncUserFromSession(session)
     })
 
     return () => subscription.unsubscribe()
@@ -38,20 +41,3 @@ export default function HomeScreen() {
 
   return <View>{userId ? <Account key={userId} userId={userId} email={email} /> : <Auth />}</View>
 }
-
-// export default function HomeScreen() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>✅ Expo is running</Text>
-//       <Text>Edit app/index.tsx to get started</Text>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
