@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { View, Alert, TextInput, Text, TouchableOpacity } from 'react-native'
-// import Avatar from './Avatar'
+import Avatar from './Avatar'
 import { appStyles } from '../styles/styles';
 
 
@@ -78,9 +78,16 @@ export default function Account({ userId, email }: { userId: string; email?: str
   return (
     <View style={styles.container}>
       <View>
-
-        {/* ... */}
-
+        <Avatar
+          size={200}
+          url={avatarUrl}
+          onUpload={(url: string) => {
+            setAvatarUrl(url)
+            updateProfile({ username, website, avatar_url: url })
+          }}
+        />
+      </View>
+      <View style={[styles.verticallySpaced, styles.mt20]}>
         <Text style={styles.label}>Email</Text>
         <TextInput
           value={email ?? ''}
