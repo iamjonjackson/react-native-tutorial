@@ -45,6 +45,11 @@ export const appStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  successMessage: {
+    color: '#1f7a3d',
+    fontSize: 14,
+    lineHeight: 20,
+  },
   avatarContainer: {
     alignItems: 'center',
     justifyContent: 'center',

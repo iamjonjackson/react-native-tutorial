@@ -7,9 +7,11 @@ export default function Auth() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [registrationMessage, setRegistrationMessage] = useState<string | null>(null)
   const styles = appStyles
 
   async function signInWithEmail() {
+    setRegistrationMessage(null)
     setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -21,13 +23,19 @@ export default function Auth() {
   }
 
   async function signUpWithEmail() {
+    setRegistrationMessage(null)
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     })
 
-    if (error) Alert.alert(error.message)
+    if (error) {
+      Alert.alert(error.message)
+    } else if (data?.user) {
+      setRegistrationMessage('Registration successful. Check your email to confirm your account before signing in.')
+    }
+
     setLoading(false)
   }
 
@@ -72,6 +80,11 @@ export default function Auth() {
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
       </View>
+      {registrationMessage ? (
+        <View style={styles.verticallySpaced}>
+          <Text style={styles.successMessage}>{registrationMessage}</Text>
+        </View>
+      ) : null}
     </View>
   )
 }
